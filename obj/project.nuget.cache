@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "n1Zf8dfU8gM=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\matia\\OneDrive\\Desktop\\Simpson Back\\SimpsonsDle.Api\\SimpsonsDle.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\matia\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.2\\microsoft.aspnetcore.openapi.10.0.2.nupkg.sha512",
+    "C:\\Users\\matia\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
