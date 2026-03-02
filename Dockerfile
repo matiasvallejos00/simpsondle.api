@@ -1,24 +1,21 @@
 # 1. Imagen del SDK para compilar
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-# 2. Copiamos el archivo .csproj que está en la raíz
-# Según tu VS Code, el archivo se llama SimpsonsDle.Api.csproj
-COPY ["SimpsonsDle.Api.csproj", "./"]
-RUN dotnet restore "SimpsonsDle.Api.csproj"
-
-# 3. Copiamos todo lo demás (incluida la carpeta Data)
+# 2. Copiamos ABSOLUTAMENTE TODO primero para evitar errores de rutas
 COPY . .
 
-# 4. Publicamos la app
-RUN dotnet publish "SimpsonsDle.Api.csproj" -c Release -o out
+# 3. Restauramos y publicamos usando el nombre exacto de tu proyecto
+# Render buscará este archivo en cualquier subcarpeta
+RUN dotnet restore "SimpsonsDle.Api.csproj"
+RUN dotnet publish "SimpsonsDle.Api.csproj" -c Release -o /app/publish
 
-# 5. Imagen final para correr la app
+# 4. Imagen final para correr la app
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /app/out .
+COPY --from=build /app/publish .
 
-# Configuración de puerto para Render
+# Exponemos el puerto para Render
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
 
