@@ -11,4 +11,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\personajes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
