@@ -2,15 +2,18 @@ using SimpsonsDle.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Configurar Servicios
-builder.Services.AddSingleton<CharacterService>(); // Solo una vez es necesario
+// --- 1. CONFIGURACIÓN DE SERVICIOS ---
 
+// Registramos el servicio de personajes
+builder.Services.AddSingleton<CharacterService>();
+
+// Configuración de CORS para que Vercel pueda entrar sin bloqueos
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactApp",
+    options.AddPolicy("AllowAll",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
+            policy.AllowAnyOrigin()
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -20,13 +23,19 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// 2. Configurar el Pipeline de HTTP
-app.UseCors("AllowReactApp");
+// --- 2. CONFIGURACIÓN DEL PIPELINE ---
 
-// MUY IMPORTANTE: Esto permite que el front acceda a las imágenes de wwwroot/Images
+app.UseHttpsRedirection();
+
+// Fundamental para que las fotos en wwwroot/Images se vean en Render
 app.UseStaticFiles();
 
+// Habilitamos CORS antes de los controladores
+app.UseCors("AllowAll");
+
 app.UseAuthorization();
+
+// Mapea tus rutas de la API (/api/characters, etc.)
 app.MapControllers();
 
 app.Run();
